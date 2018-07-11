@@ -88,8 +88,10 @@ def main():
                 #print(bytes)
                 #show image
                 image = cv.imdecode(bytes, cv.IMREAD_UNCHANGED)
+                flipped=cv.flip(image,-1)
                 #print(type(image))
-                cv.imshow("img", image) #show image stream in a pop up window
+                cv.imshow("img", flipped) #show image stream in a pop up window
+                cv.waitKey(10)
     except KeyboardInterrupt:
         print('Terminating client thread')
         client_thread.join()
