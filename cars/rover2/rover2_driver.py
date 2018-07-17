@@ -78,6 +78,8 @@ def read(sock, stufflen):
 
 #function for streaming thread
 def server_process(stop_event, sock, stream):
+    global car_command
+
     try:
         while not stop_event.isSet():
             if stream.tell() != 0:
@@ -87,6 +89,7 @@ def server_process(stop_event, sock, stream):
                 commands_lock.release()
                 send(sock, struct.pack('<Lhbb', imsize, V, E, T))
                 stream.seek(0)
+                #print('command sent:', car_command)
                 nsent = send(sock, stream.read())
                 if nsent == -1:
                     print("Client closed connection, stopping thread")
@@ -114,6 +117,7 @@ def main():
     global pan_current
     global tilt_current
     global motor_speed
+    global car_command
     
     #start server thread
     server_thread=threading.Thread(target=server_process, args=[stop_event, out_streamer, stream])
