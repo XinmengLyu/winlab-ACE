@@ -127,7 +127,7 @@ def main():
         server_thread.start()
         time.sleep(2)
         print('Starting camera...')
-        camera.start_recording(stream, format='rgb')
+        camera.start_recording(stream, format='mjpeg')
 
         with open('/dev/input/js0', 'rb') as f:
             for line in follow(f):
