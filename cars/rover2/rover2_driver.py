@@ -164,11 +164,11 @@ def main():
                     elif message[2] == 2:
                         #Turning pan servo
                         pan_current = round(-message[0]/PAN_SCALE + 90)
-                        cm.to_position(pan_current, tilt_current)
+                        cm.turn(pan_current, tilt_current)
                     elif message[2] == 3:
                         #Turning tilt servo
                         tilt_current = round(message[0]/TILT_SCALE + 90)
-                        cm.to_position(pan_current, tilt_current)
+                        cm.turn(pan_current, tilt_current)
                     elif message[2] == 4:
                         #Turning front wheels
                         fw_current = round(message[0]/FW_SCALE + 90)

@@ -88,6 +88,16 @@ class Camera(object):
 		self.current_tilt = self.safe_plus(self.current_tilt, -step)
 		self.tilt_servo.write(self.current_tilt)
 
+	def turn(self, expect_pan, expect_tilt):
+		pan_diff = expect_pan - self.current_pan
+		tilt_diff = expect_tilt - self.current_tilt
+		if self._DEBUG:
+			print self._DEBUG_INFO, 'Quick turn to posision [%s, %s] (pan, tilt)' % (expect_pan, expect_tilt)
+		self.current_pan = self.safe_plus(self.current_pan, pan_diff)
+		self.current_tilt = self.safe_plus(self.current_tilt, tilt_diff)
+		self.pan_servo.write(self.current_pan)
+		self.tilt_servo.write(self.current_tilt)
+
 	def to_position(self, expect_pan, expect_tilt, delay=CAMERA_DELAY):
 		'''Control two servo to write the camera to ready position'''
 		pan_diff = self.current_pan - expect_pan
