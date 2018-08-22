@@ -48,12 +48,12 @@ def client_process(stop_ev, sock):
         while not stop_ev.isSet(): 
             image_data=struct.unpack('<Lhbb', read_stuff(sock, struct.calcsize('<Lhbb')).getbuffer())
             #print commands
-            print("command ：(%d, %d, %d) " %(image_data[1], image_data[2], image_data[3]))
+            #print("command ：(%d, %d, %d) " %(image_data[1], image_data[2], image_data[3]))
             lock.acquire()
             
             command=list()
             
-            command.append(image_data[1])           
+            command.append(image_data[1])
             command.append(image_data[2])
             command.append(image_data[3])
             print("imagesize"+str(image_data[0]))
@@ -65,7 +65,6 @@ def client_process(stop_ev, sock):
 
     except BrokenPipeError:
         print("connection broken, server no longer sending")
-        
         stop_ev.set()
 
 
@@ -101,15 +100,16 @@ def main():
                 flipped=cv.flip(image,-1)
                 cv.imshow("img", flipped) #show image stream in a pop up window
                 if int(saveIma)==1:
-                    print(c)
+                    #print(c)
                     ts=time.time()
                     ts=int(ts)
                     #cv.imwrite("/Users/rongfeng/Downloads/images/image"+str(c)+"_"+str(command[0])+"_"+str(command[1])+"_"+str(command[2])+".jpeg",flipped)
-                    cv.imwrite("/Users/rongfeng/Downloads/images/"+str(ts)+"_"+str(command[0])+"_"+str(command[1])+"_"+str(command[2])+".jpeg",flipped)
+                    cv.imwrite(r"C:\Users\Simon\data\\"+str(ts)+"_"+str(command[0])+"_"+str(command[1])+"_"+str(command[2])+".jpeg",flipped)
                     c=c+1
                 cv.waitKey(1)
     except KeyboardInterrupt:
         print('Terminating client thread')
+        stop_ev.set()
         client_thread.join()
         cleanup()
 
