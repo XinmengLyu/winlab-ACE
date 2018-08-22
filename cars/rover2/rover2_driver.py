@@ -175,6 +175,7 @@ def main():
                         fw.turn(fw_current)
     except KeyboardInterrupt:
         print('Stopping camera and terminating server thread')
+        stop_event.set()
         camera.stop_recording()
         server_thread.join()
         destroy()
